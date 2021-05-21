@@ -1,9 +1,11 @@
 import tkinter as tk
 from tkinter import messagebox
 import re
+from math import pi, e
+from Result import Error
 
 
-class GetFromUser:
+class GetFromUser:  #user input of the integral function, range and method
     func, a, b, e, method = None, 0, 0, 0, None
 
     def __init__(self):
@@ -12,9 +14,9 @@ class GetFromUser:
             self.get_range()
             if not self.a == self.b == self.e == 0:
                 self.get_method()
-                if not self.method: quit()
-            else: quit()
-        else: quit()
+                if not self.method: Error("Завершення", "Здається, роботу програму було передчасно завершено на етапі вибору методу. Прощавайте!")
+            else: Error("Завершення", "Здається, роботу програму було передчасно завершено на етапі визначення меж. Прощавайте!")
+        else: Error("Завершення", "Здається, роботу програму було передчасно завершено на етапі введення функції. Прощавайте!")
         
     def get_func(self):
         root = tk.Tk()
@@ -33,13 +35,13 @@ class GetFromUser:
         def next1():
             self.func = inp_func.get()
 
-            def inp_isvalid():
+            def inp_isvalid(): #checking for invalid function input
                 self.func = self.func.replace(',', '.')
-                for_check = self.func
+                for_check = self.func   # just a copy to replace and ignore some trigonometrical functions
                 for f in ['sin(', 'cos(', 'tan(', 'ctg(', 'ln(', 'log(', 'log2(', 'log10(', 'sqrt(']:
                     for_check = for_check.replace(f, '(')
                 self.func = self.func.replace('ln(', 'log(')
-                for_check = for_check.replace('pi', 'x')
+                for_check = for_check.replace('pi', 'x').replace('e', 'x')
                 allowed_chars = "0123456789x(.+-*/:^) "
                 for ch in for_check:
                     if ch not in allowed_chars:
@@ -106,15 +108,15 @@ class GetFromUser:
         def next2():
             def is_invalid():
                 if len(inp_a.get()) == 0 or len(inp_b.get()) == 0 or len(inp_part_num.get()) == 0: return -1
-                if not re.match(r"^-?[0-9]+\.?[0-9]*$", inp_a.get()): return 1
-                if not re.match(r"^-?[0-9]+\.?[0-9]*$", inp_b.get()): return 2
+                if not re.match(r"^-?[0-9]+\.?[0-9]*$", inp_a.get().replace('pi', '1').replace('e', '1')): return 1
+                if not re.match(r"^-?[0-9]+\.?[0-9]*$", inp_b.get().replace('pi', '1').replace('e', '1')): return 2
                 if not inp_part_num.get().isdigit(): return 3
                 return 0
             if is_invalid() == -1:
                 messagebox.showinfo("Введені дані", "Заповніть всі поля!")
             elif is_invalid() == 1:
                 messagebox.showinfo("Введені дані", "Некоректний ввід:\na = "+inp_a.get() +
-                                    "\nНе задовольняє вимогу: a - дробове число, записане через роздільник '.'")
+                                    "\nНе задовольняє вимогу: a - дробове число, записане через роздільник '.', або константи 'pi' чи 'e'")
                 a_entry.delete(0, tk.END)
             elif is_invalid() == 2:
                 messagebox.showinfo("Введені дані", "Некоректний ввід:\nb = "+inp_b.get() +
@@ -125,8 +127,16 @@ class GetFromUser:
                                     "\nКількість кроків має бути цілим додатнім числом!")
                 part_num_entry.delete(0, tk.END)
             else:
-                self.a = float(inp_a.get())
-                self.b = float(inp_b.get())
+                try:
+                    self.a = float(inp_a.get())
+                    self.b = float(inp_b.get())
+                except:
+                    try:
+                        self.a = eval(inp_a.get())
+                        self.b = eval(inp_b.get())
+                    except:
+                        messagebox.showinfo("Введені дані", "Помилка")
+                        quit()
                 if self.a > self.b: self.a, self.b = self.b, self.a
                 self.e = (self.b - self.a) / int(inp_part_num.get())
                 root.destroy()

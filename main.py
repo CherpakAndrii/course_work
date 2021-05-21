@@ -3,15 +3,16 @@ from GetFromUser import GetFromUser
 from draw_plot import Draw
 from Result import Result
 
-class main:
+
+class Main:
     def __init__(self):
         inp = GetFromUser()
         i = Integrate(inp.a, inp.b, inp.e, inp.func, inp.method)
-        result = i.integrate()
+        i.integrate()
         dr = Draw(i)
-        flname = 'plot.png'
+        flname = 'plot.png' # Filename for temporary plot image
         dr.get_image(flname)
-        print(result)
-        # Result(result, flname)
+        Result(i.result, flname)
 
-main()
+
+Main()
