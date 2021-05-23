@@ -10,15 +10,18 @@ class Result:   # Creates the form and puts results in
         root.config(bg='#cdcdcd')
         root.title("Результати обчислення")
         frame = tk.Frame(root, width=640, height=480, background='white')
-        label1 = tk.Label(frame, image=ImageTk.PhotoImage(Image.open(flname)))
+        img = Image.open(flname)
+        r_img = ImageTk.PhotoImage(img)
+        label1 = tk.Label(frame, image=r_img)
         label1.pack()
         frame.pack()
-        label2 = tk.Label(root, text=f"Result: S = {result}", bg='#cdcdcd', fg='blue', font="Arial 15")
+        label2 = tk.Label(root, text=f"Result: S = {round(result, 3)}", bg='#cdcdcd', fg='blue', font="Arial 15")
         label2.pack(padx=10, pady=10)
 
         def end():
-            os.remove(flname)
             root.destroy()
+            img.close()
+            os.remove(flname)
             quit()
 
         button_end = tk.Button(root, text="Завершити", command=end, width=10, heigh=2, font="Arial 10 bold italic", bg='#94E851', fg='white')
