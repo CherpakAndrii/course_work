@@ -5,6 +5,10 @@ from Result import Result
 
 
 class Main:
+    '''My program should be fully object oriented, so I decide to create this class.
+
+    The main class, similar to "Program" in C#'''
+
     def __init__(self):
         inp = GetFromUser()
         i = Integrate(inp.a, inp.b, inp.e, inp.func, inp.method)

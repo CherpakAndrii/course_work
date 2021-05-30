@@ -4,7 +4,8 @@ from tkinter import messagebox
 import os
 
 
-class Result:   # Creates the form and puts results in
+class Result:
+    '''A part of GUI. Creates the form and puts results in.'''
     def __init__(self, result, flname):
         root = tk.Tk()
         root.config(bg='#cdcdcd')
@@ -19,6 +20,7 @@ class Result:   # Creates the form and puts results in
         label2.pack(padx=10, pady=10)
 
         def end():
+            '''Just a command for an End button. Deletes an image, closes the window and quites the code'''
             root.destroy()
             img.close()
             os.remove(flname)
@@ -30,7 +32,8 @@ class Result:   # Creates the form and puts results in
         root.mainloop()
 
 
-class Error:    # Is used in case of error. Shows message end finishes the program.
+class Error:
+    '''This class is used in case of error. Shows message end finishes the program.'''
     def __init__(self, name, text):
         messagebox.showinfo(name, text)
         quit()

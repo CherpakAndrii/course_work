@@ -2,6 +2,7 @@ import matplotlib.pyplot as plt
 
 
 class Draw:
+    '''Is based on the Integrate class. Designed to draw a plot and save it as an image.'''
     def __init__(self, integr):
         self.a, self.b, self.x, self.y, self.e, self.func, self.result = integr.a, integr.b, integr.x, integr.y, integr.e, integr.func, integr.result
         self.f = integr.f
@@ -12,7 +13,8 @@ class Draw:
             self.real_y.append(self.f(x))
             x += 0.001
 
-    def get_image(self, flname):    # Creates a plot image and saves it as a file
+    def get_image(self, flname):
+        '''Creates a plot image and saves it as a file'''
         j = 1
         while j >= 0:
             plt.plot(self.x, [a*j for a in self.y], label="line 1", color='blue', linewidth=3-j)
@@ -28,4 +30,3 @@ class Draw:
         plt.axhline(0)
         plt.title(f'f(x) = {self.func}')
         plt.savefig(flname)
-        plt.show()

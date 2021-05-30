@@ -5,9 +5,11 @@ from math import pi, e
 from Result import Error
 
 
-class GetFromUser:  #user input of the integral function, range and method
+class GetFromUser:
+    '''The class, designed to get the integral function, range and method from user, using GUI'''
     func, a, b, e, method = None, 0, 0, 0, None
 
+    # main logic of ths class
     def __init__(self):
         self.get_func()
         if self.func:
@@ -17,7 +19,8 @@ class GetFromUser:  #user input of the integral function, range and method
                 if not self.method: Error("Завершення", "Здається, роботу програму було передчасно завершено на етапі вибору методу. Прощавайте!")
             else: Error("Завершення", "Здається, роботу програму було передчасно завершено на етапі визначення меж. Прощавайте!")
         else: Error("Завершення", "Здається, роботу програму було передчасно завершено на етапі введення функції. Прощавайте!")
-        
+
+    # user's input of the integral function, its validation
     def get_func(self):
         root = tk.Tk()
         root.config(bg='#cdcdcd')
@@ -29,9 +32,11 @@ class GetFromUser:  #user input of the integral function, range and method
         inp_func = tk.StringVar()
         func_entry = tk.Entry(root, width=40, textvariable=inp_func)
 
+        #just a function for info button
         def get_info():
             messagebox.showinfo("Дані про межі та крок", '''Введіть функцію для інтегрування, використовуючи цифри, змінну х, оператори "+", "-", "*", ":" aбо "/", "^" aбо "**" та функції sin(), cos(), tan(), ctg(), ln(), log(), log2(), log10() чи sqrt(). Інші оператори не приймаються.\nВи також можете використовувати будь-яку кількість пробілів, вони ніяк не вплинуть на результат.\n \nНаприклад: f(x) = x^2 + 4/x + 2x + 1''')
 
+        #closes the current window and going to the next stage
         def next1():
             self.func = inp_func.get()
 
@@ -56,12 +61,12 @@ class GetFromUser:  #user input of the integral function, range and method
                 for_check = for_check.replace(' ', '')
                 for i in range(len(for_check)-1):
                     if for_check[i] == for_check[i+1] == '*': continue
-                    if for_check[i] in allowed_chars[11:20] and for_check[i+1] in allowed_chars[12:21]:
+                    if for_check[i] in allowed_chars[11:19] and for_check[i+1] in allowed_chars[12:20]:
                         return False
                 self.func = self.func.replace('^', '**')
                 self.func = self.func.replace(':', '/')
                 for i in range(len(self.func)-1):
-                    if self.func[i] not in allowed_chars[11:21] and self.func[i+1] == 'x' or self.func[i] == 'x' and \
+                    if self.func[i] not in allowed_chars[11:20] and self.func[i+1] == 'x' or self.func[i] == 'x' and \
                             self.func[i+1] not in allowed_chars[11:21] or self.func[i] == ')' and self.func[i+1] == '(':
                         self.func = self.func[:i+1]+"*"+self.func[i+1:]
                 return True
@@ -85,6 +90,7 @@ class GetFromUser:  #user input of the integral function, range and method
 
         root.mainloop()
 
+    # user's input of the integral function, its validation
     def get_range(self):
         root = tk.Tk()
         root.config(bg='#cdcdcd')
@@ -102,9 +108,11 @@ class GetFromUser:  #user input of the integral function, range and method
         inp_part_num = tk.StringVar(value="1000")
         part_num_entry = tk.Entry(root, width=40, textvariable=inp_part_num)
 
+        #just a function for info button
         def get_info():
             messagebox.showinfo("Дані про межі та крок", "На даному етапі вам необхідно ввести межі інтегрування (мінімальне та максимальне значення Х на проміжку) та крок, з яким буде здійснено прохід по даному проміжку. Значення кроку повинно знаходитися в межах від 0 до 1 не включно.")
 
+        # closes the current window and going to the next stage
         def next2():
             def is_invalid():
                 if len(inp_a.get()) == 0 or len(inp_b.get()) == 0 or len(inp_part_num.get()) == 0: return -1
@@ -155,6 +163,7 @@ class GetFromUser:  #user input of the integral function, range and method
 
         root.mainloop()
 
+    # user's input of the integral function, its validation
     def get_method(self):
         root = tk.Tk()
         root.config(bg='#cdcdcd')
@@ -169,8 +178,11 @@ class GetFromUser:  #user input of the integral function, range and method
         rb4 = tk.Radiobutton(root, text="Метод трапецій", variable=method, bg='#cdcdcd',value="trapeze")
         rb5 = tk.Radiobutton(root, text="Метод Сімпсона", variable=method, bg='#cdcdcd',value="simps")
 
+        #just a function for info button
         def get_info():
             messagebox.showinfo("Дані про методи", "Всі ці методи передбачають розбиття проміжку на смужечки мінімально можливої товщини. Значення інтегралу обчислюється, як сума площ цих смужечок.\n - Метод лівих прямокутників використовує при розрахунках значення функції на початку проміжку, центральних прямокутників - в його центрі, а правих - на кінці;\n - Метод трапецій використовує середнє між значенням на початку та на кінці;\n - Метод Сімпсона сприймає криву як частинку параболи і шукає площу за відповідними формулами.")
+
+        # closes the current window and going to the next stage
         def end():
             self.method = method.get()
             root.destroy()
