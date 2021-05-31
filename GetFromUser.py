@@ -119,12 +119,13 @@ class GetFromUser:
                 if not re.match(r"^-?[0-9]+\.?[0-9]*$", inp_a.get().replace('pi', '1').replace('e', '1')): return 1
                 if not re.match(r"^-?[0-9]+\.?[0-9]*$", inp_b.get().replace('pi', '1').replace('e', '1')): return 2
                 if not inp_part_num.get().isdigit(): return 3
+                if abs(float(inp_a.get())-float(inp_b.get()))<0.0001: return 4
                 return 0
             if is_invalid() == -1:
                 messagebox.showinfo("Введені дані", "Заповніть всі поля!")
             elif is_invalid() == 1:
                 messagebox.showinfo("Введені дані", "Некоректний ввід:\na = "+inp_a.get() +
-                                    "\nНе задовольняє вимогу: a - дробове число, записане через роздільник '.', або константи 'pi' чи 'e'")
+                                    "\nНе задовольняє вимогу: a - дробове число, записане через роздільник '.'")
                 a_entry.delete(0, tk.END)
             elif is_invalid() == 2:
                 messagebox.showinfo("Введені дані", "Некоректний ввід:\nb = "+inp_b.get() +
@@ -134,6 +135,11 @@ class GetFromUser:
                 messagebox.showinfo("Введені дані", "Некоректний ввід:\ne = "+inp_part_num.get() +
                                     "\nКількість кроків має бути цілим додатнім числом!")
                 part_num_entry.delete(0, tk.END)
+            elif is_invalid() == 4:
+                messagebox.showinfo("Введені дані", "Некоректний ввід:\na = " + inp_a.get() + ", b = " + inp_b.get() +
+                                    "\nНе задовольняє вимогу: розмір проміжку має перевищувати 0.0001!")
+                a_entry.delete(0, tk.END)
+                b_entry.delete(0, tk.END)
             else:
                 try:
                     self.a = float(inp_a.get())
