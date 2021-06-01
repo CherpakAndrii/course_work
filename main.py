@@ -1,7 +1,7 @@
-from Integrate import Integrate
 from GetFromUser import GetFromUser
 from draw_plot import Draw
 from Result import Result
+import sys
 
 
 class Main:
@@ -11,12 +11,12 @@ class Main:
 
     def __init__(self):
         inp = GetFromUser()
-        i = Integrate(inp.a, inp.b, inp.e, inp.func, inp.method)
-        i.integrate()
-        dr = Draw(i)
+        if len(sys.argv)>5: inp.get_from_console(sys.argv)
+        else: inp.get_from_user()
+        dr = Draw(inp)
         flname = 'plot.png' # Filename for temporary plot image
         dr.get_image(flname)
-        Result(i.result, flname)
+        Result.output_result(dr.integr.result, flname)
 
 
 Main()

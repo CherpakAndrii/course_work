@@ -6,13 +6,14 @@ import os
 
 class Result:
     '''A part of GUI. Creates the form and puts results in.'''
-    def __init__(self, result, flname):
+    @staticmethod
+    def  output_result(result, flname):
         root = tk.Tk()
         root.config(bg='#cdcdcd')
         root.title("Результати обчислення")
         frame = tk.Frame(root, width=640, height=480, background='white')
         img = Image.open(flname)
-        r_img = ImageTk.PhotoImage(img)
+        r_img = ImageTk.PhotoImage(img, master=root)
         label1 = tk.Label(frame, image=r_img)
         label1.pack()
         frame.pack()
@@ -31,9 +32,8 @@ class Result:
 
         root.mainloop()
 
-
-class Error:
-    '''This class is used in case of error. Shows message end finishes the program.'''
-    def __init__(self, name, text):
+    @staticmethod
+    def get_error(name, text):
+        '''Is used in case of error. Shows message end finishes the program.'''
         messagebox.showinfo(name, text)
         quit()
