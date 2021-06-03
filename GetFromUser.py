@@ -7,7 +7,7 @@ from Result import Result
 
 class GetFromUser:
     '''The class, designed to get the integral function, range and method from user, using GUI'''
-    func, a, b, e, method = None, 0, 0, 0, None
+    func, a, b, e, method, n = None, 0, 0, 0, None, 0
 
     def __init__(self): pass
 
@@ -23,7 +23,7 @@ class GetFromUser:
         else: Result.get_error("Завершення", "Здається, роботу програму було передчасно завершено на етапі введення функції. Прощавайте!")
 
     def func_isvalid(self): #checking for invalid function input
-        self.func = self.func.replace(',', '.').replace('^', '**')
+        self.func = self.func.replace(',', '.')
         for_check = self.func   # just a copy to replace and ignore some trigonometrical functions
         for f in ['sin(', 'cos(', 'tan(', 'ctg(', 'ln(', 'log(', 'log2(', 'log10(', 'sqrt(']:
             for_check = for_check.replace(f, '(')
@@ -50,6 +50,7 @@ class GetFromUser:
             if self.func[i] not in allowed_chars[11:20] and self.func[i+1] == 'x' or self.func[i] == 'x' and \
                      self.func[i+1] not in allowed_chars[11:21] or self.func[i] == ')' and self.func[i+1] == '(':
                 self.func = self.func[:i+1]+"*"+self.func[i+1:]
+        self.func = self.func.replace('^', '**')
         return True
 
     # user's input of the integral function, its validation
@@ -150,15 +151,12 @@ class GetFromUser:
                 try:
                     self.a = float(inp_a.get())
                     self.b = float(inp_b.get())
+                    self.n = int(inp_part_num.get())
                 except:
-                    try:
-                        self.a = eval(inp_a.get())
-                        self.b = eval(inp_b.get())
-                    except:
-                        messagebox.showinfo("Введені дані", "Помилка")
-                        quit()
+                    messagebox.showinfo("Введені дані", "Помилка")
+                    quit()
                 if self.a > self.b: self.a, self.b = self.b, self.a
-                self.e = (self.b - self.a) / int(inp_part_num.get())
+                self.e = (self.b - self.a) / self.n
                 root.destroy()
 
         button_next = tk.Button(root, text="Далі", command=next2, font="Arial 10 bold italic", width=10, heigh = 2, bg='#94E851', fg='white')
@@ -259,4 +257,5 @@ class GetFromUser:
             messagebox.showinfo("Введені дані", "Помилка")
             quit()
         if self.a > self.b: self.a, self.b = self.b, self.a
-        self.e = (self.b - self.a) / int(args[4])
+        self.n = int(args[4])
+        self.e = (self.b - self.a) / self.n

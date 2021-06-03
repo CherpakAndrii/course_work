@@ -18,7 +18,7 @@ class Integrate:
     def rect_l(self):
         '''The left rectangles method'''
         x, s = self.inputedValues.a, 0
-        while x < self.inputedValues.b:
+        for ctr in range(self.inputedValues.n):
             s += self.f(x) * self.inputedValues.e
             self.x_values.append(x)
             self.y_values.append(self.f(x))
@@ -30,7 +30,7 @@ class Integrate:
     def rect_r(self):
         '''The right rectangles method'''
         x, s = self.inputedValues.a, 0
-        while x < self.inputedValues.b:
+        for ctr in range(self.inputedValues.n):
             self.x_values.append(x)
             x += self.inputedValues.e
             s += self.f(x) * self.inputedValues.e
@@ -42,7 +42,7 @@ class Integrate:
     def rect_c(self):
         '''The central rectangles method'''
         x, s = self.inputedValues.a, 0
-        while x < self.inputedValues.b:
+        for ctr in range(self.inputedValues.n):
             s += self.f(x + self.inputedValues.e / 2) * self.inputedValues.e
             self.x_values.append(x)
             self.y_values.append(self.f(x + self.inputedValues.e / 2))
@@ -56,7 +56,7 @@ class Integrate:
         x, s = self.inputedValues.a, 0
         self.x_values.append(x)
         self.y_values.append(self.f(x))
-        while x < self.inputedValues.b:
+        for ctr in range(self.inputedValues.n):
             s += (self.f(x) * self.inputedValues.e + self.f(x + self.inputedValues.e) * self.inputedValues.e) / 2
             x += self.inputedValues.e
             self.x_values.append(x)
@@ -66,7 +66,7 @@ class Integrate:
     def simps(self):
         '''The Simpson`s method'''
         x, s = self.inputedValues.a, 0
-        while x < self.inputedValues.b:
+        for ctr in range(self.inputedValues.n):
             self.get_parabola(x)
             s += self.inputedValues.e / 6 * (self.f(x) + self.f(x + self.inputedValues.e) + 4 * self.f(x + self.inputedValues.e / 2))
             x += self.inputedValues.e
